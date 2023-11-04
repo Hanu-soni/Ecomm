@@ -3,12 +3,12 @@
 //these are some of the requirement libraries. If any other middleware or lib needed, add it
 //accordingly 
 const  User=require('../models/Users');
-const router=require("express").Router();;
+const router=require("express").Router();
 const bcrypt=require("bcryptjs");
 const jwt=require('jsonwebtoken');
 const Users = require('../models/Users');
 
-router.post('/register',async(req,res)=>{
+router.post('/user/register',async(req,res)=>{
     try{
         const email=await User.findOne({email:req.body.email});
         //checking if already exist
@@ -43,7 +43,7 @@ router.post('/register',async(req,res)=>{
 
 //user login
 
-router.post('/login',async(req,res)=>{
+router.post('/user/login',async(req,res)=>{
     try{
         const email=await User.findOne({email:req.body.email});
         console.log(email)
