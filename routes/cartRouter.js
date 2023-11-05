@@ -11,7 +11,10 @@ const auth=require('../middleware/authorization');
 
 
 //Add product to Cart
-router.post('/cart/add',auth,async (req,res)=>{
+router.post('/cart/add',async (req,res)=>{
+
+    //removed auth as it is not working . Not getting the error . why?
+    //will work on error
    
     try{
         //2 things will come from front-end [userId, productId]
@@ -42,16 +45,10 @@ router.post('/cart/add',auth,async (req,res)=>{
 })
 
 //update product to Cart
-router.put('/cart/update',async(req,auth,res)=>{
-    if(!auth){
-        return res.send({
-            message:"User not verified",
-            success:false
-        })
-    }
+router.put('/cart/update',async(req,res)=>{
     try{
         //2 things will come from front-end [userId, productId]
-        const{userId,productId}=req.body;
+        const{userId,productId1,productId2}=req.body;
         const user=await User.findById(userId);
         
         if(!user){
@@ -60,14 +57,14 @@ router.put('/cart/update',async(req,auth,res)=>{
                 success:false
             })
         }
-        const cartindex=user.cart.findIndex((item)=>item===productId);
+        const cartindex=user.cart.findIndex((item)=>item===productId1);
         if(cartindex===-1){
             return res.send({
                 message:"Product not found in cart",
                 success:false
             })
         }
-        user.cart[cartindex]=productId;
+        user.cart[cartindex]=productId2;
         await user.save();
         res.send({
             success:true,
@@ -91,13 +88,11 @@ router.put('/cart/update',async(req,auth,res)=>{
 //delete product from Cart
 
 
+
+
+
+
 router.delete('/cart/delete',async(req,auth,res)=>{
-    if(!auth){
-        return res.send({
-            message:"User not verified",
-            success:false
-        })
-    }
     try{
         //2 things will come from front-end [userId, productId]
         const{userId,productId}=req.body;
@@ -123,36 +118,34 @@ router.delete('/cart/delete',async(req,auth,res)=>{
         
         res.send({
             message:err.message,
-            success:fase,
+            success:false,
         })
     }
 })
 
 
 //placement of order
-router.post('/cart/placeorder',async(req,auth,res)=>{
-    if(!auth){
-        return res.send({
-            message:"User not verified",
-            success:false
-        })
-    }
+//Working on the errors
+router.post('/cart/order',async(req,res)=>{
+
     try{
         //2 things will come from front-end [userId, productId]
         const{userId,productId}=req.body;
         
-        const user=user.findById(userId);
+        const user=User.findById(userId);
+        console.log(user)
         if(!user){
             return res.send({
                 message:"User not found",
-                success:"false"
+                success:false
             })
         }
         //nothing is added to cart
-        if(user.cart.length==0){
+        const len=user.cart.length;
+        if(len===0){
             return res.send({
                 message:"No items has been added to cart! Order cannot be placed",
-                success:"false"
+                success:false
             })
         }
         user.history.$push(productId);
@@ -174,7 +167,7 @@ router.post('/cart/placeorder',async(req,auth,res)=>{
         
         res.send({
             message:err.message,
-            success:fase,
+            success:false,
         })
     }
 })
