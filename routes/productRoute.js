@@ -4,7 +4,7 @@ const Product = require('../models/Product');
 
 
 //getting filtered product based on Category
-router.get('/product/category',async(req,res)=>{
+router.get('/product/:category',async(req,res)=>{
     const category=req.params.category;
     try{
         const products=await Product.find({category:category});
@@ -22,26 +22,32 @@ router.get('/product/category',async(req,res)=>{
 
 // Category Listing: Create an API endpoint that retrieves a list of categorie
 
-router.get('/product/categorylist',async(req,res)=>{
+router.get('/categorylist',async(req,res)=>{
+     
+    console.log("hello");
     try{
         const product=await Product.find();
         let set=new Set();
-        for (const [key, value] of Object.entries(product)) {
-            if(key=='category'){
-                set.add(value);
-            }
-          }
-          res.send({
-            message:"success",
-            data:set
-          })
+        
+        for(let i=0;i<product.length;i++)
+        {
+            
+                    set.add(product[i].category);
+                
+              
+        }
+        if(set.size==0){
+            return res.send("No category found");
+        }
+        
+          console.log(set);
+          return res.send({
+            data:Array.from(set)
+          });
 
     }catch(err)
     {
-        res.send({
-            message:err.message,
-            success:false,
-        });
+        res.send(err);
     }
 });
 
@@ -50,7 +56,7 @@ router.get('/product/categorylist',async(req,res)=>{
 // Implement an endpoint that fetches the detailed information of a
 // specific product by its ID
 
-router.get('/product/details/:id',async(req,res)=>{
+router.get('/productdetails/:id',async(req,res)=>{
     const proId=req.params.id;
 
     try{
@@ -69,11 +75,13 @@ router.get('/product/details/:id',async(req,res)=>{
     }catch(err)
     {
         res.send({
-            success:"false",
+            success:false,
             message:err.message
         })
     }
 })
+
+module.exports=router;
 
 
 

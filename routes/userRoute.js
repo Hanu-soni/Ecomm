@@ -87,6 +87,24 @@ router.post('/user/login',async(req,res)=>{
     }
 });
 
+
+
+// Develop API endpoints to allow users to add products to their
+// cart, view the cart, update quantities, and remove items from the car
+//need the authorization of user 
+
+router.post('/user/cart/add',async(req,res)=>{
+    try{
+        const cart=await User.findOne()
+    }catch(err)
+    {
+        
+    }
+})
+
+
+
+
 module.exports=router;
 
 
