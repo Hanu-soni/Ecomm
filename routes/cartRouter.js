@@ -1,6 +1,7 @@
 const router=require("express").Router();
 const Product = require('../models/Product');
 const User=require('../models/Users');
+const Order=require('../models/Orders');
 const auth=require('../middleware/authorization');
 
 
@@ -29,7 +30,7 @@ router.post('/cart/add',async (req,res)=>{
         res.send({
             success:true,
             message:"product added to cart",
-            data:userupdate
+            data:userupdate.cart
                    })
 
 
@@ -86,13 +87,7 @@ router.put('/cart/update',async(req,res)=>{
 
 
 //delete product from Cart
-
-
-
-
-
-
-router.delete('/cart/delete',async(req,auth,res)=>{
+router.delete('/cart/delete',async(req,res)=>{
     try{
         //2 things will come from front-end [userId, productId]
         const{userId,productId}=req.body;
@@ -125,15 +120,14 @@ router.delete('/cart/delete',async(req,auth,res)=>{
 
 
 //placement of order
-//Working on the errors
-router.post('/cart/order',async(req,res)=>{
+router.put('/cart/order',async(req,res)=>{
 
     try{
         //2 things will come from front-end [userId, productId]
         const{userId,productId}=req.body;
         
-        const user=User.findById(userId);
-        console.log(user)
+        const user=await User.findByIdAndUpdate(userId,{$push:{history:productId}},{new:true});
+        //console.log(user)
         if(!user){
             return res.send({
                 message:"User not found",
@@ -141,18 +135,20 @@ router.post('/cart/order',async(req,res)=>{
             })
         }
         //nothing is added to cart
-        const len=user.cart.length;
-        if(len===0){
+        const cartlength=user.cart;
+        if(cartlength===0){
             return res.send({
                 message:"No items has been added to cart! Order cannot be placed",
                 success:false
             })
         }
-        user.history.$push(productId);
+        //console.log(user.history);
+       
+ 
         //once order is placed, empty the cart
-        user.cart=[];
-        await user.save();
-
+        User.findByIdAndUpdate(userId,{cart:[]},{new:true});
+        const neworder=new Order({date:new Date(),userid:userId,productid:productId});
+        await user.save(),neworder.save();
        
         res.send({
             success:true,
@@ -171,6 +167,20 @@ router.post('/cart/order',async(req,res)=>{
         })
     }
 })
+
+
+//updating the OrderDetails table
+router.put('/orderdetails',async(req,res)=>{
+    try{
+
+
+
+    }catch(err)
+    {
+
+    }
+})
+
 
 module.exports =router;
 

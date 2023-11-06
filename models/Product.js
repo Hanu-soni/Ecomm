@@ -7,7 +7,7 @@ const Product=new mongoose.Schema(
         avail:{type:Boolean,required:true},
         desc:{type:String,required:true},
         price:{type:Number,required:true},
-        category:{type:String,required:true}
+        category:{type:String,required:true},
     },
     {
         timestamps:true,

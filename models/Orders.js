@@ -6,8 +6,8 @@ const Orders=new mongoose.Schema(
 	
 
         date: { type: Date, required: true },
-       userid:{type:Number,required:true,ref:"Users"},
-       productid:{type:Number,required:true,ref:"Product"},
+       userid:{type:String,required:true},
+       productid:{type:String,required:true},
        
     },
     {
