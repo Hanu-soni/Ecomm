@@ -1,9 +1,9 @@
 const express=require('express');
+//importing express module
 const app=express();
+//creating instance of express 
 const dbConfig=require('./config/dbcon');
-const Product=require('./models/Product');
-const Order=require('./models/Orders');
-const User=require('./models/Users');
+//creating connection with database
 const UserRouter=require('./routes/userRoute')
 const ProductRouter=require('./routes/productRoute')
 const cartRouter=require('./routes/cartRouter')
@@ -14,6 +14,7 @@ app.use(express.json());
 
 const server=require("http").createServer(app);
 app.use(UserRouter);
+//2 apis register and login
 app.use(ProductRouter);
 app.use(cartRouter);
 

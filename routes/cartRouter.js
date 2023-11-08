@@ -12,7 +12,7 @@ const auth=require('../middleware/authorization');
 
 
 //Add product to Cart
-router.post('/cart/add',async (req,res)=>{
+router.post('/cart/add',auth,async (req,res)=>{
 
     //removed auth as it is not working . Not getting the error . why?
     //will work on error
@@ -170,14 +170,38 @@ router.put('/cart/order',async(req,res)=>{
 
 
 //updating the OrderDetails table
-router.put('/orderdetails',async(req,res)=>{
+router.put('/orderdetails',auth,async(req,res)=>{
     try{
-
-
+       const order=Order.find();
+       if(order.length>0)
+       {
+        return res.send({
+            message:"orderdetails recieved",
+            success:true,
+            data:order
+        })
+       }
+       return res.send({
+        message:"there is no previous order",
+        success:false,
+        data:"No data"
+       })
 
     }catch(err)
     {
+        return res.send({
+            message:err.message,
+            success:false,
+        })
+    }
+})
 
+
+router.post('/searchproduct',async (req,res)=>{
+    try{
+
+    }catch{
+        
     }
 })
 
