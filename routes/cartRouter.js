@@ -12,7 +12,7 @@ const auth=require('../middleware/authorization');
 
 
 //Add product to Cart
-router.post('/cart/add',auth,async (req,res)=>{
+router.post('/cart/add',async (req,res)=>{
 
     //removed auth as it is not working . Not getting the error . why?
     //will work on error
@@ -197,13 +197,125 @@ router.put('/orderdetails',auth,async(req,res)=>{
 })
 
 
-router.post('/searchproduct',async (req,res)=>{
-    try{
 
-    }catch{
+//filtering Product based on Users search
+// router.get('/SearchByName/:search',async (req,res)=>{
+//     const query=req.params.search;
+    
+//     try{
+//         // "Laptop"-->split L a p t o p
+//         console.log("hello")
+        
+//         console.log(query);
+
+//         if (!query) {
+//             return res.send({
+//                 message:"query is not provided",
+//                 success:false
+//             })
+//           }
+
+          
+//           const products = await Product.find({
+//             $or: [
+//               { name: { $eq: query } }, // Check for exact name match
+//               { category: { $eq: query } } // Check for exact category match
+//             ]
+//           });
+//         if (products.length === 0) {
+//             return res.send({
+//               message: "No products found matching the query",
+//               success: true,
+//               data: []
+//             });
+//           }
+
+//           return res.send({
+//             data:products,
+//             success:true
+//           })
+
+//     }catch(err){
+//             return res.send({
+//                 message:err.message,
+//                 success:false
+//             })
+        
+//     }
+// })
+router.get('/Search/:search',async (req,res)=>{
+    const query=req.params.search;
+    
+    try{
+        // "Laptop"-->split L a p t o p
+        console.log("hello")
+        
+        console.log(query);
+
+        if (!query) {
+            return res.send({
+                message:"query is not provided",
+                success:false
+            })
+          }
+
+          
+          const products = await Product.find({});
+          let result=new Array();
+          
+
+          //NORMAL SEARCH OF CAT OR PRODUCT
+          for(let i=0;i<products.length;i++){
+
+            //console.log(products[i].name);
+            if(products[i].name==query || products[i].category==query){
+                result.push(products[i]);
+            }
+
+            //IF USER SEARCH FOR PRODUCT OR CAT SOMEWHAT CLOSE TO LIST
+            else
+            {
+                let productname=products[i].name.toLowerCase();
+                
+                let productcat=products[i].category.toLowerCase();
+                // console.log(productname,"  ",productcat)
+                let querynew=query.substring(0,4).toLowerCase();
+                // console.log(querynew);
+                if(productcat.includes(querynew)|| productname.includes(querynew)){
+                    result.push(products[i]);
+                }
+                
+                
+            }
+          }
+          
+          //console.log(products);
+          //console.log(result)
+        if (result.length === 0) {
+            return res.send({
+              message: "No products found matching the query",
+              success: true,
+              data: []
+            });
+          }
+
+          return res.send({
+            data:result,
+            success:true
+          })
+
+    }catch(err){
+            return res.send({
+                message:err.message,
+                success:false
+            })
         
     }
 })
+
+
+
+
 
 
 module.exports =router;
