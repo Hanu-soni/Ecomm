@@ -13,8 +13,8 @@ mongoose.connect(dbURL, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
    bufferCommands: true, // Set this to true to enable buffering
-  bufferMaxEntries: 0,   // Set the maximum number of entries in the buffer
-  connectTimeoutMS: 30000, // Set the connection timeout
+     // Set the maximum number of entries in the buffer
+  connectTimeoutMS: 100000, // Set the connection timeout
  }).then(()=>{
     console.log("connected to db")
  }).catch(error=>{
