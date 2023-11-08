@@ -12,7 +12,7 @@ const dbURL=process.env.Mongodb;
 mongoose.connect(dbURL, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
-   bufferCommands: true, // Set this to true to enable buffering
+   bufferCommands: false, // Set this to true to enable buffering
      // Set the maximum number of entries in the buffer
   connectTimeoutMS: 100000, // Set the connection timeout
  }).then(()=>{
