@@ -260,7 +260,7 @@ router.get('/Search/:search',async (req,res)=>{
           }
 
           
-          const products = await Product.find({timeout:25000});
+          const products = await Product.find({});
           let result=new Array();
           
 
