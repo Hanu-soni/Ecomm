@@ -260,53 +260,48 @@ router.get('/Search/:search',async (req,res)=>{
           }
 
           
-          const products = await Product.find({
-            $or: [
-                { name: query },
-                { category: query },
-            ]
-          }).maxTimeMS(30000);
-        //   const query=req.params.search;
-        //   let result=new Array();
+          const products = await Product.find({}).maxTimeMS(30000);
+       
+          let result=new Array();
           
 
           //NORMAL SEARCH OF CAT OR PRODUCT
-        //   for(let i=0;i<products.length;i++){
+          for(let i=0;i<products.length;i++){
 
-        //     console.log(products[i].name);
-        //     if(products[i].name==query || products[i].category==query){
-        //         result.push(products[i]);
-        //     }
+            console.log(products[i].name);
+            if(products[i].name==query || products[i].category==query){
+                result.push(products[i]);
+            }
 
-        //     IF USER SEARCH FOR PRODUCT OR CAT SOMEWHAT CLOSE TO LIST
-        //     else
-        //     {
-        //         let productname=products[i].name.toLowerCase();
+            // IF USER SEARCH FOR PRODUCT OR CAT SOMEWHAT CLOSE TO LIST
+            else
+            {
+                let productname=products[i].name.toLowerCase();
                 
-        //         let productcat=products[i].category.toLowerCase();
-        //         console.log(productname,"  ",productcat)
-        //         let querynew=query.substring(0,4).toLowerCase();
-        //         console.log(querynew);
-        //         if(productcat.includes(querynew)|| productname.includes(querynew)){
-        //             result.push(products[i]);
-        //         }
+                let productcat=products[i].category.toLowerCase();
+                console.log(productname,"  ",productcat)
+                let querynew=query.substring(0,4).toLowerCase();
+                console.log(querynew);
+                if(productcat.includes(querynew)|| productname.includes(querynew)){
+                    result.push(products[i]);
+                }
                 
                 
-        //     }
-        //   }
+            }
+          }
           
-          //console.log(products);
-          //console.log(result)
-        // if (result.length === 0) {
-        //     return res.send({
-        //       message: "No products found matching the query",
-        //       success: true,
-        //       data: []
-        //     });
-        //   }
+          console.log(products);
+          console.log(result)
+        if (result.length === 0) {
+            return res.send({
+              message: "No products found matching the query",
+              success: true,
+              data: []
+            });
+          }
 
           return res.send({
-            data:products,
+            data:result,
             success:true
           })
 

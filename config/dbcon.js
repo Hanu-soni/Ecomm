@@ -7,6 +7,7 @@ require('dotenv').config();
 
 
 const dbURL=process.env.Mongodb;
+console.log(dbURL)
 
 
 mongoose.connect(dbURL, {
@@ -16,7 +17,7 @@ mongoose.connect(dbURL, {
      // Set the maximum number of entries in the buffer
   connectTimeoutMS: 100000, // Set the connection timeout
  }).then(()=>{
-    console.log("connected to db")
+    console.log("connected to PANKAJ")
  }).catch(error=>{
     console.log(error);
  })
