@@ -9,9 +9,8 @@ const jwt=require('jsonwebtoken');
 
 router.post('/user/register',async(req,res)=>{
     try{
-        app.get('/', (req, res) => {
             res.render('/pankaj')
-        })
+        
         const email=await User.findOne({email:req.body.email});
 
 
