@@ -260,7 +260,7 @@ router.get('/Search/:search',async (req,res)=>{
           }
 
           
-          const products = await Product.find({}).maxTimeMS(30000);;
+          const products = await Product.find({}).maxTimeMS(30000);
           let result=new Array();
           
 

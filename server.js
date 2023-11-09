@@ -3,6 +3,7 @@ const express=require('express');
 const app=express();
 //creating instance of express 
 const dbConfig=require('./config/dbcon');
+const cors=require('cors')
 //creating connection with database
 const UserRouter=require('./routes/userRoute')
 const ProductRouter=require('./routes/productRoute')
@@ -10,7 +11,14 @@ const cartRouter=require('./routes/cartRouter')
 
 const port =process.env.PORT || 5000;
 app.use(express.json());
-//connect to database
+
+app.all('/*',function(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "POST, GET");
+  next();
+})
+app.use(cors());
 
 const server=require("http").createServer(app);
 app.use(UserRouter);
