@@ -97,12 +97,16 @@ router.post('/user/login',async(req,res)=>{
 // cart, view the cart, update quantities, and remove items from the car
 //need the authorization of user 
 
-router.post('/user/cart/add',async(req,res)=>{
+router.get('/user/getalluser',async(req,res)=>{
     try{
-        const cart=await User.findOne()
-    }catch(err)
-    {
-        
+        const user=User.find({});
+        let array=new Array();//for storing username
+        for(let i=0;i<user.length;i++){
+            array.push(user.email);
+        }
+
+    }catch(err){
+
     }
 })
 
