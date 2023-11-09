@@ -99,10 +99,12 @@ router.post('/user/login',async(req,res)=>{
 
 router.get('/user/getalluser',async(req,res)=>{
     try{
-        const user=User.find({});
+        const user=await User.find();
+        console.log(user);
         let array=new Array();//for storing username
         for(let i=0;i<user.length;i++){
-            array.push(user.email);
+            if(user[i].email!=null)
+            array.push(user[i].email);
         }
         res.send({
             success:"true",
