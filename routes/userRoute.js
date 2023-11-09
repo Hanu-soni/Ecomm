@@ -104,8 +104,16 @@ router.get('/user/getalluser',async(req,res)=>{
         for(let i=0;i<user.length;i++){
             array.push(user.email);
         }
+        res.send({
+            success:"true",
+            data:array
+        })
 
     }catch(err){
+        res.send({
+            success:false,
+            message:err.message
+        })
 
     }
 })
