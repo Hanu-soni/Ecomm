@@ -8,6 +8,8 @@ const cors=require('cors')
 const UserRouter=require('./routes/userRoute')
 const ProductRouter=require('./routes/productRoute')
 const cartRouter=require('./routes/cartRouter')
+const ejs=require('ejs');
+app.set('view engine', 'ejs')
 
 const port =process.env.PORT || 5000;
 app.use(express.json());
