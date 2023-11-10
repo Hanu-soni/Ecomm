@@ -120,9 +120,31 @@ router.get('/user/getalluser',async(req,res)=>{
     }
 })
 
-router.get('/example',(req,res)=>{
-    const data=User.find({});
-    res.render('example',{data:data});
+router.get('/example',async (req,res)=>{
+    // const data=User.find({});
+    // 
+    try{
+        const user=await User.find();
+        console.log(user);
+        let array=new Array();//for storing username
+        for(let i=0;i<user.length;i++){
+            if(user[i].email!=null)
+            array.push(user[i].email);
+        }
+        res.send({
+            success:"true",
+            data:array
+        })
+        res.render('example',{data:data});
+
+    }catch(err){
+        res.send({
+            success:false,
+            message:err.message
+        })
+
+    }
+    
 })
 
 
