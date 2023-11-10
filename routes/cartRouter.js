@@ -12,7 +12,7 @@ const auth=require('../middleware/authorization');
 
 
 //Add product to Cart
-router.post('/cart/add',async (req,res)=>{
+router.post('/cart/add',auth,async (req,res)=>{
 
     //removed auth as it is not working . Not getting the error . why?
     //will work on error
@@ -281,7 +281,7 @@ router.get('/Search/:search',async (req,res)=>{
                 
                 let productcat=products[i].category.toLowerCase();
                 console.log(productname,"  ",productcat)
-                let querynew=query.substring(0,4).toLowerCase();
+                let querynew=query.substring(0,2).toLowerCase();
                 console.log(querynew);
                 if(productcat.includes(querynew)|| productname.includes(querynew)){
                     result.push(products[i]);
@@ -314,6 +314,26 @@ router.get('/Search/:search',async (req,res)=>{
         
     }
 })
+
+
+router.get('/example1',async (req,res)=>{
+    // const data=User.find({});
+    // 
+    try{
+        const user=await Product.find();
+        res.render('example',{data:user});
+
+    }catch(err){
+        res.send({
+            success:false,
+            message:err.message
+        })
+
+    }
+    
+})
+
+
 
 
 

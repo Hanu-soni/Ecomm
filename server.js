@@ -1,4 +1,5 @@
 const express=require('express');
+const path=require('path');
 //importing express module
 const app=express();
 //creating instance of express 
@@ -11,6 +12,7 @@ const cartRouter=require('./routes/cartRouter')
 const ejs=require('ejs');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+
 
 const port =process.env.PORT || 5000;
 app.use(express.json());
@@ -29,6 +31,11 @@ app.use(UserRouter);
 //2 apis register and login
 app.use(ProductRouter);
 app.use(cartRouter);
+
+//Starting the server with html file and info
+app.get("/",(req,res)=>{
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 
 server.listen(port ,()=>console.log(`Server is running on port${port}`));

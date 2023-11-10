@@ -131,11 +131,11 @@ router.get('/example',async (req,res)=>{
             if(user[i].email!=null)
             array.push(user[i].email);
         }
-        res.send({
-            success:"true",
-            data:array
-        })
-        res.render('example',{data:data});
+        // res.send({
+        //     success:"true",
+        //     data:array
+        // })
+        res.render('example',{data:array});
 
     }catch(err){
         res.send({
