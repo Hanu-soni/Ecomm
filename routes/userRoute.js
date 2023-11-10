@@ -120,6 +120,11 @@ router.get('/user/getalluser',async(req,res)=>{
     }
 })
 
+router.get('/example',(req,res)=>{
+    const data=User.find();
+    res.render('example',{data:data});
+})
+
 
 
 
