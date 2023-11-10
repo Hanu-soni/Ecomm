@@ -20,21 +20,19 @@ router.get('/product/:category',async(req,res)=>{
 });
 
 
+
 // Category Listing: Create an API endpoint that retrieves a list of categorie
 
 router.get('/categorylist',async(req,res)=>{
      
-    console.log("hello");
+    // console.log("hello");
     try{
         const product=await Product.find();
         let set=new Set();
         
         for(let i=0;i<product.length;i++)
         {
-            
-                    set.add(product[i].category);
-                
-              
+                    set.add(product[i].category);     
         }
         if(set.size==0){
             return res.send("No category found");
@@ -79,6 +77,32 @@ router.get('/productdetails/:id',async(req,res)=>{
             message:err.message
         })
     }
+})
+
+
+
+//add products to productlist (TO BE DONE BY VENDOR)
+
+router.post('/products/addproduct',async(req,res)=>{
+    let addpro=req.body;
+    if(!addpro){
+        res.send({
+            message:"NEED DETAILS OF PRODUCT TO BE ADDED"
+        })
+
+    }
+    //can add verification of object item if required
+    //Assuming that all product details are right , I am doing
+
+    const product=new Product(addpro);
+    await product.save();
+    res.send({
+        success:true,
+        data:product
+    })
+
+
+
 })
 
 module.exports=router;

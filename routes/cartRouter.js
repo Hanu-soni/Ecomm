@@ -61,7 +61,7 @@ router.put('/cart/update',async(req,res)=>{
         const cartindex=user.cart.findIndex((item)=>item===productId1);
         if(cartindex===-1){
             return res.send({
-                message:"Product not found in cart",
+                message:"Product1 not found in cart",
                 success:false
             })
         }
@@ -272,6 +272,7 @@ router.get('/Search/:search',async (req,res)=>{
             if(products[i].name==query || products[i].category==query){
                 result.push(products[i]);
             }
+            //I am making a front-end page for the following
 
             // IF USER SEARCH FOR PRODUCT OR CAT SOMEWHAT CLOSE TO LIST
             else
