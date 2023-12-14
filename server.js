@@ -6,12 +6,8 @@ const app=express();
 const dbConfig=require('./config/dbcon');
 const cors=require('cors')
 //creating connection with database
-const UserRouter=require('./routes/userRoute')
-const ProductRouter=require('./routes/productRoute')
-const cartRouter=require('./routes/cartRouter')
-const ejs=require('ejs');
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
+const locationRoute=require('./routes/locationRoute')
+const weatherRoute=require('./routes/weatherRoute')
 
 
 const port =process.env.PORT || 5000;
@@ -26,16 +22,9 @@ app.all('/*',function(req,res,next){
 })
 app.use(cors());
 
+app.use(locationRoute);
+app.use(weatherRoute);
+
 const server=require("http").createServer(app);
-app.use(UserRouter);
-//2 apis register and login
-app.use(ProductRouter);
-app.use(cartRouter);
-
-//Starting the server with html file and info
-app.get("/",(req,res)=>{
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
 
 server.listen(port ,()=>console.log(`Server is running on port${port}`));

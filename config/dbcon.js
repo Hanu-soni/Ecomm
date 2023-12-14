@@ -17,7 +17,7 @@ mongoose.connect(dbURL, {
      // Set the maximum number of entries in the buffer
   connectTimeoutMS: 100000, // Set the connection timeout
  }).then(()=>{
-    console.log("connected to PANKAJ")
+    console.log("connected to PANKAJDB")
  }).catch(error=>{
     console.log(error);
  })
